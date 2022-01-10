@@ -1,13 +1,13 @@
 package com.gismatullin.mailtestproject.tests;
 
-import static com.gismatullin.mailtestproject.testhelper.TestHelper.LOGIN;
-import static com.gismatullin.mailtestproject.testhelper.TestHelper.PASSW;
+import static com.gismatullin.mailtestproject.testhelper.TestHelper.login;
+import static com.gismatullin.mailtestproject.testhelper.TestHelper.passw;
 import static com.gismatullin.mailtestproject.testhelper.TestHelper.clean;
 import static com.gismatullin.mailtestproject.testhelper.TestHelper.setup;
 import static org.testng.Assert.assertEquals;
 
-import com.gismatullin.mailtestproject.businessobjects.MailBoxPageBO;
-import com.gismatullin.mailtestproject.businessobjects.StartPageBO;
+import com.gismatullin.mailtestproject.businessobjects.MailBoxPageBusinessObject;
+import com.gismatullin.mailtestproject.businessobjects.StartPageBusinessObject;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -22,11 +22,12 @@ public class MainTest {
 
     @Test
     public void sendingTestEmail() {
-        MailBoxPageBO mailBoxPageBO = new StartPageBO().login(LOGIN, PASSW);
-        int testEmailsNumber = mailBoxPageBO.countTestEmails();
-        mailBoxPageBO.sendTestEmail("test emails number : " + testEmailsNumber);
+        StartPageBusinessObject startPageBO = new StartPageBusinessObject();
+        MailBoxPageBusinessObject mailBoxPageBO = startPageBO.login(login, passw);
+        int currentTestEmailsNumber = mailBoxPageBO.countTestEmails();
+        mailBoxPageBO.sendTestEmail("test emails number : " + currentTestEmailsNumber);
         int newTestEmailsNumber = mailBoxPageBO.countTestEmails();
-        int actual = newTestEmailsNumber - testEmailsNumber;
+        int actual = newTestEmailsNumber - currentTestEmailsNumber;
         mailBoxPageBO.logout();
         assertEquals(actual, 1);
     }

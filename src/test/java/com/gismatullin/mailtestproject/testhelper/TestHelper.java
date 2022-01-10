@@ -19,18 +19,20 @@ public class TestHelper {
     public static final int TIMEOUT = 10;
     public static final String SEARCH_QUERY = "папка:Входящие тема:";
     public static final String EMAIL_THEME = "Тестовое задание";
-    private static String BASE_URL;
-    public static String LOGIN;
-    public static String PASSW;
+    private static String baseUrl;
+    public static String login;
+    public static String passw;
+    public static boolean headless = false;
     private static final String propsPath = "./src/test/resources/config.properties";
 
     static {
         try (InputStream input = new FileInputStream(propsPath)) {
             Properties props = new Properties();
             props.load(input);
-            BASE_URL = props.getProperty("BASE_URL");
-            LOGIN = props.getProperty("LOGIN");
-            PASSW = props.getProperty("PASSW");
+            baseUrl = props.getProperty("baseUrl");
+            login = props.getProperty("login");
+            passw = props.getProperty("passw");
+            headless = Boolean.valueOf(props.getProperty("headless"));
         } catch (IOException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException(e);
@@ -41,7 +43,9 @@ public class TestHelper {
 
     public static void setup() {
         ChromeOptions options = new ChromeOptions();
-        // options.addArguments("--headless");
+        if (headless) {
+            options.addArguments("--headless");
+        }
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
         URL url;
@@ -55,7 +59,7 @@ public class TestHelper {
         driver = new RemoteWebDriver(url, capabilities);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(TIMEOUT));
-        driver.get(BASE_URL);
+        driver.get(baseUrl);
     }
 
     // public static void getReady(String path) {

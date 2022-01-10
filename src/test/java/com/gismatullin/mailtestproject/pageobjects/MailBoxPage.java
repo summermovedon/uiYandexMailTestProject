@@ -30,8 +30,8 @@ public class MailBoxPage {
     public WebElement clearSearchQuery;
     @FindBy(css = "a.ComposeDoneScreen-Link")
     public WebElement doneLink;
-    @FindBy(css = "div.mail-Toolbar-Item_main-select-all")
-    public WebElement selectAllMailsCheckBox;
+    @FindBy(className = "mail-ComposeButton-Refresh")
+    public WebElement refreshButton;
     @FindBy(css = "div.mail-Toolbar-Item_delete")
     public WebElement deleteMailButton;
     @FindBy(className = "legouser__current-account")
